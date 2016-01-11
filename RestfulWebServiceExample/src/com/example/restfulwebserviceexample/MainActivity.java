@@ -34,8 +34,8 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		Button getData = (Button) findViewById(R.id.getservicedata);
-		getData.setOnClickListener(new OnClickListener() {
+		Button sendreceiveData = (Button) findViewById(R.id.sendreceiveservicedata);
+		sendreceiveData.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -45,6 +45,8 @@ public class MainActivity extends ActionBarActivity {
 
 			}
 		});
+		
+		
 	}
 
 	private class RestOperation extends AsyncTask<String, Void, Void> {

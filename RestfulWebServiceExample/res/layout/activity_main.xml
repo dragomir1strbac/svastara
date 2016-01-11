@@ -18,10 +18,12 @@
             android:layout_height="wrap_content"
             />
         
-        <Button android:id="@+id/getservicedata"
+        <Button android:id="@+id/sendreceiveservicedata"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal"
+			android:text="@string/button_send_receive"/>
+			
         
         <TextView android:id="@+id/serverDataReceived"
             android:layout_width="fill_parent"
@@ -31,7 +33,7 @@
         <TextView android:id="@+id/rawJsonData"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="TO receive JSON data from Server click the above button"
+            android:text="Da dobijete da ili ne odgovor otkucajte pitanje, unesite broj da/ne primaoca i pritisnite dugme. Za status predhodnih pitanja samo pritisnite dugme!"
             />
         <TextView android:id="@+id/parsedJSONData"
             android:layout_width="fill_parent"
