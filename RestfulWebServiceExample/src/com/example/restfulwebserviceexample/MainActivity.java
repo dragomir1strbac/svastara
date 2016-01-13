@@ -7,11 +7,11 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
+import java.net.HttpURLConnection;
+//import java.net.URLEncoder;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
+//import org.apache.http.client.HttpClient;
+//import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,8 +39,7 @@ public class MainActivity extends ActionBarActivity {
 
 			@Override
 			public void onClick(View v) {
-			//	String restURL = "http://www.androidexample.com/media/webservice/JsonReturn.php";
-				String restURL = "http://serviszayesno.heroku.com/json/getAnswer";
+				String restURL = "http://serviszayesno.herokuapp.com/ws/getAnswer";
 				new RestOperation().execute(restURL);
 
 			}
@@ -51,7 +50,7 @@ public class MainActivity extends ActionBarActivity {
 
 	private class RestOperation extends AsyncTask<String, Void, Void> {
 
-		final HttpClient  httpClient = new DefaultHttpClient();
+	//	final HttpClient  httpClient = new DefaultHttpClient();
 		String content;
 		String error;
 		ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
@@ -68,12 +67,12 @@ public class MainActivity extends ActionBarActivity {
 			progressDialog.setTitle("Please wait ...");
 			progressDialog.show();
 
-			try {
-				data += "&" + URLEncoder.encode("data","UTF-8") + "=" + userinput.getText();
-			} catch (UnsupportedEncodingException e) {
+		//	try {
+				data = "{\"id\":\"123\", \"question\":\"" + userinput.getText()+"\"}";
+		//	} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		//		e.printStackTrace();
+		//	}
 		}
 
 		@Override
@@ -84,8 +83,13 @@ public class MainActivity extends ActionBarActivity {
 			try {
 				url = new URL(params[0]);
 
-				URLConnection connection = url.openConnection();
+				HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+				
+				connection.setRequestMethod("POST");
+				connection.setRequestProperty("USER-AGENT","Mozilla/5.0");
+				connection.setRequestProperty("Content-Type","application/json");
 				connection.setDoOutput(true);
+				connection.setChunkedStreamingMode(0); //not to exhaust memory heap
 				
 				OutputStreamWriter outputStreamWr = new OutputStreamWriter(connection.getOutputStream());
 				outputStreamWr.write(data);
@@ -110,6 +114,8 @@ public class MainActivity extends ActionBarActivity {
 				e.printStackTrace();
 			} finally {
 				try {
+					if(br != null)
+					
 					br.close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -142,11 +148,11 @@ public class MainActivity extends ActionBarActivity {
 					for (int i = 0; i < jsonArray.length(); i++) {
 						JSONObject child = jsonArray.getJSONObject(i);
 						
-						String name = child.getString("name");
-						String number = child.getString("number");
+						String id = child.getString("id");
+						String question = child.getString("question");
 						String time = child.getString("date_added");
 						
-						output = "Name = " + name + System.getProperty("line.separator") + number + System.getProperty("line.separator") + time;
+						output = "id = " + id + System.getProperty("line.separator") + question + System.getProperty("line.separator") + time;
 						output += System.getProperty("line.separator");
 						
 					}
