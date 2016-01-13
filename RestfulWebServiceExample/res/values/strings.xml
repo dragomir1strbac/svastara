@@ -4,6 +4,6 @@
     <string name="app_name">dane</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-	<string name="button_send_receive">SEND/RECEIVE</string>
+	<string name="button_send_receive">\?</string>
 
 </resources>

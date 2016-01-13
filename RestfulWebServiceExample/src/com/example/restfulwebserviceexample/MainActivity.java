@@ -26,6 +26,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import android.util.Log;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -41,7 +43,6 @@ public class MainActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				String restURL = "http://serviszayesno.herokuapp.com/ws/getAnswer";
 				new RestOperation().execute(restURL);
-
 			}
 		});
 		
@@ -134,27 +135,28 @@ public class MainActivity extends ActionBarActivity {
 			
 			if(error!=null) {
 				serverDataReceived.setText("Error " + error);
+				
 			} else {
+				userinput.setText(""); 
 				serverDataReceived.setText(content);
 				
+				
 				String output = "";
-				JSONObject jsonResponse;
+				JSONArray jsonArray;
 				
 				try {
-					jsonResponse = new JSONObject(content);
-
-					JSONArray jsonArray = jsonResponse.optJSONArray("Android");
+					
+					jsonArray = new JSONArray(content);
 					
 					for (int i = 0; i < jsonArray.length(); i++) {
 						JSONObject child = jsonArray.getJSONObject(i);
-						
+
 						String id = child.getString("id");
 						String question = child.getString("question");
-						String time = child.getString("date_added");
+					//	String time = child.getString("date_added");
 						
-						output = "id = " + id + System.getProperty("line.separator") + question + System.getProperty("line.separator") + time;
-						output += System.getProperty("line.separator");
-						
+						output += "id:" + id + System.getProperty("line.separator") + "Q:" +question + System.getProperty("line.separator");
+						output += System.getProperty("line.separator");	
 					}
 					
 					showParsedJSON.setText(output);
