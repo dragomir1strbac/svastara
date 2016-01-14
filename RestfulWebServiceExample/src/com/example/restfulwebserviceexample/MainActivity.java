@@ -138,7 +138,7 @@ public class MainActivity extends ActionBarActivity {
 				
 			} else {
 				userinput.setText(""); 
-				serverDataReceived.setText(content);
+			//	serverDataReceived.setText(content);  //not to see raw data
 				
 				
 				String output = "";
@@ -148,15 +148,15 @@ public class MainActivity extends ActionBarActivity {
 					
 					jsonArray = new JSONArray(content);
 					
-					for (int i = 0; i < jsonArray.length(); i++) {
+					for (int i = jsonArray.length() - 1; i >= 0; i--) {
 						JSONObject child = jsonArray.getJSONObject(i);
 
 						String id = child.getString("id");
 						String question = child.getString("question");
 					//	String time = child.getString("date_added");
-						
-						output += "id:" + id + System.getProperty("line.separator") + "Q:" +question + System.getProperty("line.separator");
-						output += System.getProperty("line.separator");	
+						output += System.getProperty("line.separator");
+						output += "Q:" +question + System.getProperty("line.separator");
+											
 					}
 					
 					showParsedJSON.setText(output);

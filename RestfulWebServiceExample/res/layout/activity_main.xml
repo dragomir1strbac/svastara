@@ -33,12 +33,12 @@
         <TextView android:id="@+id/rawJsonData"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Da dobijete da ili ne odgovor otkucajte pitanje, unesite broj da/ne primaoca i pritisnite dugme. Za status predhodnih pitanja samo pritisnite dugme!"
+            android:text="Da dobijete da ili ne odgovor otkucajte pitanje, unesite broj da/ne primaoca i pritisnite ?. Za status predhodnih pitanja pritisnite ?"
             />
         <TextView android:id="@+id/parsedJSONData"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Following is the parsed JSON Data"
+            android:text=""
             />
         
         <TextView android:id="@+id/showParsedJSON"
