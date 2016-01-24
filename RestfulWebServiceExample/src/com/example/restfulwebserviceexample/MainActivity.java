@@ -65,14 +65,20 @@ public class MainActivity extends ActionBarActivity {
 		TextView serverDataReceived = (TextView) findViewById(R.id.serverDataReceived);
 		TextView showParsedJSON = (TextView) findViewById(R.id.showParsedJSON);
 		EditText userinput = (EditText) findViewById(R.id.userinput);
+		String input = userinput.getText().toString();
 		
-		Long tsLong = System.currentTimeMillis()/1000;
-		String id = tsLong.toString();
+		
+		Long tmsLong = System.currentTimeMillis();
+		String id = tmsLong.toString();
 		
 		String sender = MainActivity.android_id;// Secure.getString(getContext().getContentResolver(),Secure.ANDROID_ID); //should not be called every time
 		
+		String receiver = "";
+		String delims = "[ ]+";
+		String[] tokens = input.split(delims);
 		
 		
+		String question = input.replaceAll("\\s+", " ");
 
 
 		@Override
@@ -82,13 +88,24 @@ public class MainActivity extends ActionBarActivity {
 			progressDialog.setTitle("Please wait ...");
 			progressDialog.show();
 		
+		
+		    for (int i = 0; i < tokens.length; i++){ // find receiver from message @xxxxx format		
+				if(tokens[i].startsWith("@") && tokens[i].length() == 5 )
+				{
+					receiver = tokens[i];
+					break;
+				}
+			}
+
+		
+		
 		try {
 			JSONObject jQuestion = new JSONObject();
 			
 			jQuestion.put("id",id);
 			jQuestion.put("sender",sender);
-			jQuestion.put("receiver","123"); //hard coded
-			jQuestion.put("question",userinput.getText());
+			jQuestion.put("receiver",receiver);
+			jQuestion.put("question",question);
 			
 			data = jQuestion.toString();
 			} catch (JSONException e) {
