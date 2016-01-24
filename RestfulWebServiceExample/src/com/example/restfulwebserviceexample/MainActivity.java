@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ProgressDialog;
+import android.provider.Settings.Secure;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -31,17 +32,23 @@ import android.util.Log;
 
 public class MainActivity extends ActionBarActivity {
 
+
+    public static String android_id ;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		android_id = Secure.getString(this.getContentResolver(),Secure.ANDROID_ID);
+		Log.d("Android","Android ID : "+android_id);
+		
+		
 		Button sendreceiveData = (Button) findViewById(R.id.sendreceiveservicedata);
 		sendreceiveData.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				String restURL = "http://serviszayesno.herokuapp.com/ws/getAnswer";
+				String restURL = "http://serviszayesno.herokuapp.com/ws/submitQuestion";
 				new RestOperation().execute(restURL);
 			}
 		});
@@ -51,7 +58,6 @@ public class MainActivity extends ActionBarActivity {
 
 	private class RestOperation extends AsyncTask<String, Void, Void> {
 
-	//	final HttpClient  httpClient = new DefaultHttpClient();
 		String content;
 		String error;
 		ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
@@ -59,6 +65,14 @@ public class MainActivity extends ActionBarActivity {
 		TextView serverDataReceived = (TextView) findViewById(R.id.serverDataReceived);
 		TextView showParsedJSON = (TextView) findViewById(R.id.showParsedJSON);
 		EditText userinput = (EditText) findViewById(R.id.userinput);
+		
+		Long tsLong = System.currentTimeMillis()/1000;
+		String id = tsLong.toString();
+		
+		String sender = MainActivity.android_id;// Secure.getString(getContext().getContentResolver(),Secure.ANDROID_ID); //should not be called every time
+		
+		
+		
 
 
 		@Override
@@ -67,13 +81,22 @@ public class MainActivity extends ActionBarActivity {
 
 			progressDialog.setTitle("Please wait ...");
 			progressDialog.show();
+		
+		try {
+			JSONObject jQuestion = new JSONObject();
+			
+			jQuestion.put("id",id);
+			jQuestion.put("sender",sender);
+			jQuestion.put("receiver","123"); //hard coded
+			jQuestion.put("question",userinput.getText());
+			
+			data = jQuestion.toString();
+			} catch (JSONException e) {
+					// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 
-		//	try {
-				data = "{\"id\":\"123\", \"question\":\"" + userinput.getText()+"\"}";
-		//	} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-		//		e.printStackTrace();
-		//	}
 		}
 
 		@Override
@@ -153,9 +176,10 @@ public class MainActivity extends ActionBarActivity {
 
 						String id = child.getString("id");
 						String question = child.getString("question");
+						String answer = child.getString("answer");
 					//	String time = child.getString("date_added");
 						output += System.getProperty("line.separator");
-						output += "Q:" +question + System.getProperty("line.separator");
+						output += "Q:" +question + "..." +answer + System.getProperty("line.separator");
 											
 					}
 					
