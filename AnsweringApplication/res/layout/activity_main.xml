@@ -13,39 +13,28 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         
-        <EditText android:id="@+id/userinput"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            />
         
         <Button android:id="@+id/sendreceiveservicedata"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
 			android:text="@string/button_send_receive"/>
-			
-        
-        <TextView android:id="@+id/serverDataReceived"
+		
+		<TextView android:id="@+id/error"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text=""/>
-        
-        <TextView android:id="@+id/rawJsonData"
+		
+		<TextView android:id="@+id/info"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Da dobijete da ili ne odgovor otkucajte pitanje, unesite broj da/ne primaoca i pritisnite ?. Za status predhodnih pitanja pritisnite ?"
-            />
-        <TextView android:id="@+id/parsedJSONData"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text=""
-            />
-        
-        <TextView android:id="@+id/showParsedJSON"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            />
-        
+            android:text="to get new questions press '?', to answer the question tap on it and press '?'"/>
+		
+		<LinearLayout android:id="@+id/ll1"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>
